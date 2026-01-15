@@ -21,8 +21,7 @@ contract SimpleWallet {
 
         (bool success, ) = msg.sender.call{value: amount}("");
         require(success, "Transaction failed");
-
-
-
     } 
+
+  
 }
