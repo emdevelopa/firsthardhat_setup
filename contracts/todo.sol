@@ -1,21 +1,21 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-contract Todo {
+contract TodoList {
     struct Todo {
         uint256 id;
         string text;
         bool completed;
     }
 
-    mapping(address => Todo) private todos;
+    mapping(address => Todo[]) private todos;
     uint256 private nextId;
 
-    event TodoCreated(adress indexed user, uint256 id, string text);
+    event TodoCreated(address indexed user, uint256 id, string text);
     event TodoCmpleted(address indexed user, uint256 id);
 
     function CreateTodo(string calldata _text) external {
-        require(bytes(text).length > 0, "Tod can not be empty");
+        require(bytes(_text).length > 0, "Tod can not be empty");
 
         todos[msg.sender].push(
             Todo({id: nextId, text: _text, completed: false})
