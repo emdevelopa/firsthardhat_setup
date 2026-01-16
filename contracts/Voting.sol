@@ -2,7 +2,7 @@
 pragma solidity ^0.8.20;
 
 contract Voting{
-    enum voteChoice{
+    enum VoteChoice{
         YES,
         No
     }
@@ -62,6 +62,24 @@ contract Voting{
         proposalCount++
 
         emit proposalCreated(id, description, proposals[id].deadline);
+    }
+
+    function vote(uint id, VoteChoice choice) external{
+        Proposal storage proposal = proposals[proposalId]
+
+        require(proposal.exists, "Proposal not found");
+         require(block.timestamp < proposal.deadline, "Voting ended");
+        require(!hasVoted[proposalId][msg.sender], "Already voted");
+
+        hasVoted[proposalId][msg.sender] = true;
+
+        if (choice == VoteChoice.YES) {
+            proposal.yesVotes += 1;
+        } else {
+            proposal.noVotes += 1;
+        }
+
+        emit VoteCast(proposalId, msg.sender, choice);
     }
 
 }
