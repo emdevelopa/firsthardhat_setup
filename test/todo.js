@@ -36,9 +36,17 @@ describe("TodoList", function () {
   it("user can mark todo as completed", async () => {
     await todoList.createTodo("Call dad");
 
-    const getTodo = await todoList.getTodo(user.address);
+    const getTodo = await todoList.getTodos(user.address);
+    const id = getTodo[0].id;
 
-    console.log("the todo",getTodo);
+    await todoList.markCompleted(id);
+    const todoss = await todoList.getTodos(user.address);
+
+    expect(todoss[0].completed).to.equal(true);
   });
-  it("", async () => {});
+  it("can not complete non-existent todo", async () => {
+    await expect(todoList.markCompleted(99)).to.be.rejectedWith(
+      "Todo not found"
+    );
+  });
 });
