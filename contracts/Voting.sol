@@ -19,7 +19,7 @@ contract Voting{
     event ProposalCreated(
         uint indexed id,
         string description,
-        uint deadline
+        uint deadline,
     );
 
     event voteCast(
@@ -84,6 +84,11 @@ contract Voting{
 
     function getResult(uint proposalId) external view returns(uint yes, uint no){
         Proposal storage proposal = proposals[proposalId]; 
+
+        require(proposal.exists, "Proposal not found");
+        require(block.timestamp >= proposal.deadline, "Voting not ended");
+
+        return (proposal.yesVotes, proposal.noVotes);
     }
 
 }
