@@ -82,4 +82,8 @@ contract Voting{
         emit VoteCast(proposalId, msg.sender, choice);
     }
 
+    function getResult(uint proposalId) external view returns(uint yes, uint no){
+        Proposal storage proposal = proposals[proposalId]; 
+    }
+
 }
