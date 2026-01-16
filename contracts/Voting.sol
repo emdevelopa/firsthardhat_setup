@@ -19,19 +19,19 @@ contract Voting{
     event ProposalCreated(
         uint indexed id,
         string description,
-        uint deadline,
+        uint deadline
     );
 
     event voteCast(
         uint indexed proposalId,
         address indexed voter,
-        voteChoice choice, 
-    )
+        VoteChoice choice
+    );
 
     address public admin;
     uint public proposalCount;
 
-    mapping(uint => Proposal) public proposal;
+    mapping(uint => Proposal) public proposals;
     mapping(uint => mapping(address => bool)) public hasVoted;
 
     modifier onlyAdmin(){
@@ -48,24 +48,24 @@ contract Voting{
         require(bytes(description).length > 0, "description can not be empty");
         require(duration > 0, "Invalid duration");
 
-        uint id = proposalCount
+        uint id = proposalCount;
 
         proposals[id] = Proposal({
             id: id,
             description: description,
-            yesVotes: yesVotes,
-            noVotes: noVotes,
+            yesVotes: 0,
+            noVotes: 0,
             deadline: block.timestamp + duration,
             exists: true
-        })
+        });
 
-        proposalCount++
+        proposalCount++;
 
-        emit proposalCreated(id, description, proposals[id].deadline);
+        emit ProposalCreated(id, description, proposals[id].deadline);
     }
 
-    function vote(uint id, VoteChoice choice) external{
-        Proposal storage proposal = proposals[proposalId]
+    function vote(uint256 proposalId, VoteChoice choice) external{
+        Proposal storage proposal = proposals[proposalId];
 
         require(proposal.exists, "Proposal not found");
          require(block.timestamp < proposal.deadline, "Voting ended");
@@ -79,7 +79,7 @@ contract Voting{
             proposal.noVotes += 1;
         }
 
-        emit VoteCast(proposalId, msg.sender, choice);
+        emit voteCast(proposalId, msg.sender, choice);
     }
 
     function getResult(uint proposalId) external view returns(uint yes, uint no){

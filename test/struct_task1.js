@@ -5,14 +5,17 @@ describe("Task1", function () {
   let user;
 
   beforeEach(async () => {
-    const Test = ethers.getContractFactory("Task1");
-    test = await Test.deploy();
+    const Task = ethers.getContractFactory("Task1");
+    task = await Task.deploy();
 
-    test.waitForDeployment();
+    task.waitForDeployment();
   });
     
     it("Add user", async () => {
-        
+        const { expect } = require("chai");
+        await task.addUser(1, "Bosun", false)
+
+        expect()
     })
 
     it("gets user", async () => {
