@@ -14,7 +14,7 @@ contract TodoList {
     event TodoCreated(address indexed user, uint256 id, string text);
     event TodoCmpleted(address indexed user, uint256 id);
 
-    function CreateTodo(string calldata _text) external {
+    function createTodo(string calldata _text) external {
         require(bytes(_text).length > 0, "Tod can not be empty");
 
         todos[msg.sender].push(
