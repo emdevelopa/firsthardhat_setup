@@ -14,17 +14,16 @@ describe("Task1", function () {
   });
 
   it("Add user", async () => {
-     
-      
       const user = await task.getUser()
-
-      console.log("User: ", user);
-      
-
-    // expect();
+     
+      expect(user.id).to.equal(1)
+      expect(user.name).to.equal("Bosu")
+      expect(user.isActive).to.equal(false)
   });
 
     it("gets user", async () => {
-     
+        const user = await task.getUser();
+
+
   });
 });
